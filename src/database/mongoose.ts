@@ -1,4 +1,9 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+dotenv.config();
+const uri = process.env.ATLAS_URI;
+const dbName = process.env.MONGO_DATABASE;
 
 // Set `strictQuery: false` to globally opt into filtering by properties that aren't in the schema
 // Included because it removes preparatory warnings for Mongoose 7.
@@ -10,9 +15,9 @@ export async function mongooseConnect(): Promise<typeof mongoose> {
     throw new Error("ATLAS_URI is not defined in environment variables.");
   }
 
-  return mongoose.connect(process.env.ATLAS_URI, {
-    dbName: process.env.MONGO_DATABASE,
-  });
+  console.log(`Connecting to MongoDB${dbName ? ` (db: ${dbName})` : ""}...`);
+  console.log(uri);
+  return mongoose.connect(uri, { dbName });
 }
 
-export default mongoose;
+export default mongooseConnect;

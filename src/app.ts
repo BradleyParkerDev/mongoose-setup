@@ -1,9 +1,19 @@
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
+import { mongooseConnect } from "./database/mongoose";
 
-// Load environment variables
-dotenv.config(); 
+dotenv.config();
 
+async function main() {
+  try {
+    await mongooseConnect();
+    console.log("Connected to MongoDB");
+  } catch (error) {
+    console.error("Failed to connect to MongoDB", error);
+    process.exit(1);
+  }
 
-console.log("Hello, World!")
+  console.log("Hello, World!");
+  console.log(`PORT: ${process.env.PORT ?? "not set"}`);
+}
 
-console.log(`PORT: ${process.env.PORT}`)
+void main();

@@ -1,9 +1,8 @@
-import { randomUUID } from "crypto";
 import { HydratedDocument, Schema, model } from "mongoose";
+import { randomUUID } from "crypto";
 
 export interface User {
-  _id: string;
-  userId?: string;
+  id: string;
   firstName: string;
   lastName: string;
   emailAddress: string;
@@ -15,7 +14,7 @@ export interface User {
 
 const userSchema = new Schema<User>(
   {
-    _id: { type: String, default: randomUUID },
+    id: { type: String, default: () => randomUUID() },
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     emailAddress: { type: String, required: true, unique: true },
@@ -27,16 +26,8 @@ const userSchema = new Schema<User>(
   }
 );
 
-// Keep a `userId` virtual for parity with the original schema shape.
-userSchema.virtual("userId").get(function (this: User) {
-  return this._id;
-});
-
-userSchema.set("toJSON", { virtuals: true });
-userSchema.set("toObject", { virtuals: true });
-
 export type UserDocument = HydratedDocument<User>;
 
-const UserModel = model<User>("User", userSchema, "users");
+const User = model<User>("User", userSchema, "users");
 
-export default UserModel;
+export default User;
