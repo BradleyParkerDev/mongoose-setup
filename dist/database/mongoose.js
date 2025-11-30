@@ -28,7 +28,6 @@ function mongooseConnect() {
             throw new Error("ATLAS_URI is not defined in environment variables.");
         }
         console.log(`Connecting to MongoDB${dbName ? ` (db: ${dbName})` : ""}...`);
-        console.log(uri);
         return mongoose_1.default.connect(uri, { dbName });
     });
 }
