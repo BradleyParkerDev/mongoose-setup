@@ -16,7 +16,6 @@ export async function mongooseConnect(): Promise<typeof mongoose> {
   }
 
   console.log(`Connecting to MongoDB${dbName ? ` (db: ${dbName})` : ""}...`);
-  console.log(uri);
   return mongoose.connect(uri, { dbName });
 }
 

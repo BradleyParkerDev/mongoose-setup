@@ -1,29 +1,44 @@
-# TypeScript Build Step
+# Mongoose Setup
 
-This is a minimal TypeScript project setup with a build step designed for Node.js applications. It includes:
+This is a TypeScript-based Mongoose setup for MongoDB. It includes a simple connection helper, example models, and a seed script to prove out connectivity.
+
+## Overview
+
+This project is built with TypeScript and Mongoose to provide a clean starting point for MongoDB-backed Node apps. It includes:
+
+- Mongoose connection helper (Atlas-ready)
+- Simple example models (Users, UserSessions, SessionCronJobs)
+- Basic seed flow to create a test user
+- TypeScript configuration for strict typing
 
 ## Features
 
-- TypeScript compilation (with tsc)
-- Clean build step using rimraf
-- Environment variable support via dotenv
-- Example environment file (example.env)
+- Mongoose ODM – Schema-based modeling for MongoDB.
+- Atlas-friendly – Uses SRV URIs and `dbName` option.
+- TypeScript Support – Strict typing for models and connection helpers.
+- Seed example – Creates a fake user to verify the connection and collections.
 
 ## Project Structure
+
 ```
-typescript-build-step/
-├── dist/                   # Output directory for compiled TypeScript files
-├── node_modules/           # Installed npm packages
-├── src/                    # Source directory containing all TypeScript code
-│ ├── types/                # Migration files for database changes
-│ │ └── env.d.ts            # Configuration for NeonDB (serverless PostgreSQL)
-│ └── app.ts/               # TypeScript type definitions (if needed)
-├── .gitignore              # Files to exclude from Git tracking
-├── example.env             # Example environment variables file
-├── package-lock.json       # Locks the versions of installed npm packages
-├── package.json            # Defines project dependencies and npm scripts
-├── README.md               # Project documentation
-└── tsconfig.json           # TypeScript configuration file
+mongoose-setup/
+├── dist/                    # Compiled TypeScript output
+├── node_modules/            # Installed npm packages
+├── src/                     # Source TypeScript
+│   ├── app.ts               # Entry point / seed script
+│   ├── database/
+│   │   ├── mongoose.ts      # Mongoose connection helper
+│   │   └── models/          # Mongoose models
+│   │       ├── Users.ts
+│   │       ├── UserSessions.ts
+│   │       └── SessionCronJobs.ts
+│   └── types/               # Custom type definitions
+├── .gitignore               # Git ignores
+├── examlple.env             # Example environment variables
+├── package-lock.json        # Locked dependency versions
+├── package.json             # Dependencies and scripts
+├── README.md                # Project documentation
+└── tsconfig.json            # TypeScript configuration
 
 ```
 
@@ -31,67 +46,72 @@ typescript-build-step/
 
 ### Prerequisites
 
-- Node.js (v22.13.1 or higher)
-- npm (11.1.0 or higher)
+- Node.js (v18 or higher for `crypto.randomUUID`)
+- npm (latest recommended)
+- MongoDB Atlas (or another reachable MongoDB instance)
 
 ### Installation
 
 1. **Clone the repository:**
 
-    ```sh
-    git clone https://github.com/BradleyParkerDev/typescript-build-step.git
-    cd typescript-build-step
-    ```
+   ```sh
+   git clone https://github.com/BradleyParkerDev/mongoose-setup.git
+   cd mongoose-setup
+   ```
 
 2. **Install dependencies:**
 
-    ```sh
-    npm install
-    ```
+   ```sh
+   npm install
+   ```
 
 3. **Set up your environment variables:**
-    - Create a .env file in the root directory.
 
-    - Add the following variables:
+   - Create a `.env` file in the root directory.
+   - Add the following variables:
 
-    ```env
-    PORT=3000
-    ```
+   ```env
+   PORT=3000
+   ATLAS_URI=mongodb+srv://<username>:<password>@cluster0.lsmpwqy.mongodb.net/?appName=Cluster0
+   MONGO_DATABASE=mongoose_setup
+   ```
 
-4. **Build the application:**
+4. **Build the project:**
 
-    ```sh
-    npm run build
-    ```
+   ```sh
+   npm run build
+   ```
 
-5. **Run the application:**
+5. **Run the seed script (connects and inserts a fake user):**
 
-    ```sh
-    npm run start
-    ```
+   ```sh
+   npm start
+   ```
+
+   This connects to MongoDB, creates a test user (if not already inserted), and then exits.
 
 ## Available Scripts
 
-| Script                      | Description                                |
-|------------------------------|--------------------------------------------|
+| Script          | Description                                                     |
+| --------------- | --------------------------------------------------------------- |
 | `npm run build` | Compiles TypeScript (tsc) and removes old build files (rimraf). |
-| `npm run start`        | Runs the output in the dist directory.|
-
+| `npm start`     | Builds then runs `dist/app.js` (connects and seeds a test user).|
 
 ## Dependencies
 
-- **dotenv**: Loads environment variables from a `.env` file into `process.env`
-- **rimraf**: A deep deletion module for node (like rm -rf)
+- **dotenv**: Loads environment variables from `.env`.
+- **mongoose**: MongoDB object modeling tool for Node.js.
+- **rimraf**: Cleans the `dist` directory before builds.
 
 ## Dev Dependencies
 
 - **@types/node**: TypeScript definitions for Node.js.
-- **tsx**: Fast TypeScript execution for Node.js.
-- **typescript**: TypeScript language
+- **tsx**: Fast TypeScript runner (optional utility).
+- **typescript**: TypeScript language tooling.
 
 ## Contributing
 
-This project is not actively seeking contributions, but if you have ideas or improvements, feel free to open an issue or submit a pull request.
+This project is not actively seeking contributions, but feel free to open an issue or submit a PR with improvements.
 
 ## License
 
